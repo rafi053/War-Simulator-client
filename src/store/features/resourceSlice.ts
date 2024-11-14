@@ -2,11 +2,29 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Status } from "../../types/statusType";
 import axios from "axios";
 import { IUser } from "../../types/userModel";
+import { UserStateType } from "./usersSlice";
+
+
+interface Resource {
+  _id: string;
+  missile: Missile[];
+  amount: number;
+  __v: number;
+}
+
+interface Missile {
+  _id: string;
+  name: string;
+  description: string;
+  speed: number;
+  intercepts: string[];
+  price: number;
+}
+
 
 interface ResourceStateType {
-  currentUser: IUser | null;
-  username: string;
-  recourse: any;
+  _id: string;
+  recourse: Resource;
   organization: string;
   zone?: string | undefined;
   status: Status;
@@ -15,9 +33,8 @@ interface ResourceStateType {
 }
 
 const initialState: ResourceStateType = {
-  currentUser: null,
-  username: "",
-  recourse: [],
+  _id: "",
+  recourse: {} as Resource,
   organization: "Idf",
   zone: undefined,
   status: "idle",
@@ -29,10 +46,26 @@ const initialState: ResourceStateType = {
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 
+export const fetchCurrentUser = createAsyncThunk('users/fetchcurrentuser',
+  async (_,{getState}) => {
+    const state = getState() as { user: UserStateType };
+  
+      const response = await axios.get(BASE_URL,{
+        headers:{
+          Authorization: `Bearer ${state.user.token}`
+        }
+      });
+      return response.data
+  
+  })
+  
 
-export const fetchRecourse = createAsyncThunk('resources/fetchrecourse',async (): Promise<any|undefined> => {
-  const username = initialState.username;
-  const response = await axios.get(`${BASE_URL}/${initialState.organization}/information/${username}`,{
+
+
+
+export const fetchRecourse = createAsyncThunk('resources/fetchrecourse',async (): Promise<Resource|undefined> => {
+  const id = initialState._id;
+  const response = await axios.get(`${BASE_URL}/${initialState.organization}/information/${id}`,{
     
     headers:{
       Authorization: `Bearer ${initialState.token}`
@@ -41,30 +74,11 @@ export const fetchRecourse = createAsyncThunk('resources/fetchrecourse',async ()
     
   });
       
-      console.log( "response", response.data.resources[0] ); 
       return response.data.resources[0];
       
       
     })
 
-    export const fetchCurrentUser = createAsyncThunk('users/fetchcurrentuser',
-      async (_,{getState}) => {
-        const state = getState() as { user: ResourceStateType };
-      
-          const response = await axios.get(`${BASE_URL}/idf/information/users`,{
-            headers:{
-              Authorization: `Bearer ${state.user.token}`
-            }
-          });
-          
-          console.log('response', response.data);
-          
-          return response.data.users
-
-      
-      })
-    console.log('base url', `${BASE_URL}/idf/information/users`);
-    
     
 
 
@@ -86,20 +100,6 @@ export const recoursesSlice = createSlice({
         state.error = "Can't fetch recourse";
         state.status = "rejected";
       })
-      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-        if (action.payload) state.currentUser = action.payload;
-        state.status = "fulfilled";
-      })
-      .addCase(fetchCurrentUser.rejected, (state) => {
-        state.currentUser = null
-        state.error = "Can't fetch current user";
-        state.status = "rejected";
-      })
-      .addCase(fetchCurrentUser.pending, (state) => {
-        state.status = "pending";
-        state.error = null
-      })
-
   },
 });
 

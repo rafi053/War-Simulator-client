@@ -16,10 +16,10 @@ const App:FC = () => {
   <Routes>
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/idf/information" element={<IdfDashboard />} />
       
       <Route path="*" element={<LoginPage />} />
     </Routes>
-    <IdfDashboard />
     </div>
   )
 }

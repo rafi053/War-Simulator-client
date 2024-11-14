@@ -4,7 +4,7 @@ import { RootState } from "../store";
 import axios from "axios";
 import { IUser } from "../../types/userModel";
 
-interface UserStateType {
+export interface UserStateType {
   users: IUser[];
   currentUser: IUser | null;
   status: Status;
