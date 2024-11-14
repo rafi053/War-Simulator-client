@@ -1,34 +1,33 @@
-import { FC, useEffect } from "react";
-import './CandidateList.css';
-import {  useSelector } from "react-redux";
-import { RootState } from '../../store/store.ts'
-import CandidateItem from "../CandidateItem/CandidateItem.tsx";
-import { useAppDispatch } from "../../hooks/useDispatchType.ts";
-import { fetchCandidate } from "../../store/features/candidatesSlice.ts";
+// import { FC, useEffect } from "react";
+// import './CandidateList.css';
+// import {  useSelector } from "react-redux";
+// import { RootState } from '../../store/store.ts'
+// import CandidateItem from "../CandidateItem/CandidateItem.tsx";
+// import { useAppDispatch } from "../../hooks/useDispatchType.ts";
 
-const CandidateList: FC = () => {
-  const {candidates} = useSelector((state:RootState) => state.candidates);
+// const CandidateList: FC = () => {
+//   const {candidates} = useSelector((state:RootState) => state.candidates);
   
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(fetchCandidate())
+//   const dispatch = useAppDispatch();
+//   useEffect(() => {
+//     dispatch(fetchCandidate())
   
-  }, [])
+//   }, [])
  
  
-  return (
-    <div className="CandidateList">
-      {
-        candidates.map((candidate) => (
-          <div key={candidate._id}> 
+//   return (
+//     <div className="CandidateList">
+//       {
+//         candidates.map((candidate) => (
+//           <div key={candidate._id}> 
           
-          <CandidateItem candidate= {candidate}/>
-          </div>
-        ))
-      }
+//           <CandidateItem candidate= {candidate}/>
+//           </div>
+//         ))
+//       }
       
-    </div>
-  );
-};
+//     </div>
+//   );
+// };
 
-export default CandidateList;
+// export default CandidateList;

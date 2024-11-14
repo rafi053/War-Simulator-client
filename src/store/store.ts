@@ -1,11 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import  users  from './features/usersSlice'
-import  candidates  from './features/candidatesSlice'
-
+import recourses from './features/resourceSlice'
 export const store = configureStore({
     reducer:{
         users: users,
-        candidates: candidates
+        recourses:  recourses
     }
 })
 
