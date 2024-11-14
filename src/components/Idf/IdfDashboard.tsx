@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { RootState } from '../../store/store.ts'
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../hooks/useDispatchType.ts';
-import { fetchMissiles } from '../../store/features/resourceSlice.ts';
+import { fetchRecourse , fetchCurrentUser } from '../../store/features/resourceSlice.ts';
 
 
 
@@ -15,7 +15,8 @@ const IdfDashboard = () => {
   
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchMissiles())
+    dispatch(fetchRecourse())
+    dispatch(fetchCurrentUser())
   
   }, [])
 
